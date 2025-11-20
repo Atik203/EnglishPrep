@@ -23,8 +23,7 @@ export async function loadBengaliDictionary(): Promise<void> {
   if (bengaliDictionary) return;
 
   try {
-    // TODO: Add the downloaded JSON file to public/data/bengali-dictionary.json
-    const response = await fetch("/data/bengali-dictionary.json");
+    const response = await fetch("/E2Bdatabase.json");
     if (response.ok) {
       bengaliDictionary = await response.json();
     }

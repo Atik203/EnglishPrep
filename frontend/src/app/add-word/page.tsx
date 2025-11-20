@@ -105,10 +105,21 @@ export default function AddWordPage() {
         });
       });
 
+      // Fetch Bengali meaning
+      let bengaliMeaning = "";
+      try {
+        const bengaliData = await searchBengaliMeaning(searchTerm.trim());
+        if (bengaliData) {
+          bengaliMeaning = bengaliData.meaning;
+        }
+      } catch (error) {
+        console.log("Bengali meaning not found:", error);
+      }
+
       setFormData({
         word: firstEntry?.word || searchTerm,
         meaning: firstDefinition?.definition || "",
-        meaningBn: "",
+        meaningBn: bengaliMeaning,
         partOfSpeech: firstMeaning?.partOfSpeech || "",
         phonetic: phoneticWithAudio?.text || firstEntry?.phonetic || "",
         phoneticAudio: phoneticWithAudio?.audio || "",

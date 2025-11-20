@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/sheet";
 import { useAppSelector } from "@/redux/hooks";
 import { motion } from "framer-motion";
-import { BookMarked, BookOpen, Home, Menu, Plus } from "lucide-react";
+import { BookMarked, BookOpen, Home, Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, type JSX } from "react";
@@ -33,7 +33,7 @@ export function SiteHeader(): JSX.Element {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-      className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"
+      className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60"
     >
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 lg:px-8">
         {/* Logo */}
@@ -81,19 +81,32 @@ export function SiteHeader(): JSX.Element {
         </nav>
 
         {/* Right Side Actions */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           {!isAuthenticated ? (
             <Link href="/login" className="hidden md:inline-flex">
-              <Button variant="default" size="sm" className="cursor-pointer">
+              <Button
+                variant="default"
+                size="sm"
+                className="cursor-pointer bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white border-0"
+              >
                 Login
               </Button>
             </Link>
           ) : (
+            <>
+              <div className="hidden md:flex">
+                <ModeToggle />
+              </div>
+              <div className="hidden md:flex">
+                <UserDropdown />
+              </div>
+            </>
+          )}
+          {!isAuthenticated && (
             <div className="hidden md:flex">
-              <UserDropdown />
+              <ModeToggle />
             </div>
           )}
-          <ModeToggle />
 
           {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
