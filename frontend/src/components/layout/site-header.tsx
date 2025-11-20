@@ -1,19 +1,100 @@
+"use client";
+
 import { ModeToggle } from "@/components/theme/mode-toggle";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { BookMarked, BookOpen, Home, Menu, Plus } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { JSX } from "react";
 
+const navigation = [
+  { name: "Home", href: "/", icon: Home },
+  { name: "Words", href: "/words", icon: BookMarked },
+  { name: "Add Word", href: "/add-word", icon: Plus },
+  { name: "Practice", href: "/practice", icon: BookOpen },
+];
+
 export function SiteHeader(): JSX.Element {
+  const pathname = usePathname();
+
   return (
-    <header className="sticky top-0 z-40 border-b border-border/80 bg-background/80 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
-        <Link href="/" className="font-semibold text-lg">
-          EnglishPrep
-        </Link>
-        <div className="flex items-center gap-3 text-sm text-muted-foreground">
-          <span className="hidden sm:block">
-            Phase 1 · Vocabulary · Practice · Tense
+    <header className="sticky top-0 z-50 w-full nav-glass">
+      <div className="container mx-auto flex h-16 items-center justify-between px-4 lg:px-8">
+        {/* Logo */}
+        <Link
+          href="/"
+          className="flex items-center space-x-2 font-bold text-xl tracking-tight group"
+        >
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl glass-card transition-all duration-300 group-hover:scale-110">
+            <BookOpen className="h-5 w-5 text-primary" />
+          </div>
+          <span className="gradient-text hidden sm:inline-block">
+            EnglishPrep
           </span>
+        </Link>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center space-x-1">
+          {navigation.map((item) => {
+            const Icon = item.icon;
+            const isActive = pathname === item.href;
+            return (
+              <Link key={item.href} href={item.href}>
+                <Button
+                  variant={isActive ? "default" : "ghost"}
+                  size="sm"
+                  className="gap-2"
+                >
+                  <Icon className="h-4 w-4" />
+                  {item.name}
+                </Button>
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Right Side Actions */}
+        <div className="flex items-center gap-2">
           <ModeToggle />
+
+          {/* Mobile Menu */}
+          <Sheet>
+            <SheetTrigger asChild className="md:hidden">
+              <Button variant="ghost" size="icon">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-64">
+              <SheetHeader>
+                <SheetTitle className="text-left">Menu</SheetTitle>
+              </SheetHeader>
+              <nav className="mt-6 flex flex-col space-y-2">
+                {navigation.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = pathname === item.href;
+                  return (
+                    <Link key={item.href} href={item.href}>
+                      <Button
+                        variant={isActive ? "default" : "ghost"}
+                        className="w-full justify-start gap-2"
+                      >
+                        <Icon className="h-4 w-4" />
+                        {item.name}
+                      </Button>
+                    </Link>
+                  );
+                })}
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </header>

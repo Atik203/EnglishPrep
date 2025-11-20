@@ -16,6 +16,10 @@ export interface VocabularyDocument extends Document {
   difficulty: Difficulty;
   status: LearningStatus;
   notes?: string;
+  // Dictionary API fields
+  phonetic?: string;
+  phoneticAudio?: string;
+  sourceUrl?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -45,6 +49,10 @@ const vocabularySchema = new Schema<VocabularyDocument>(
       default: "new",
     },
     notes: { type: String, trim: true },
+    // Dictionary API fields
+    phonetic: { type: String, trim: true },
+    phoneticAudio: { type: String, trim: true },
+    sourceUrl: { type: String, trim: true },
   },
   { timestamps: true }
 );

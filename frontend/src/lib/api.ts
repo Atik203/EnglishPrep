@@ -24,6 +24,9 @@ export interface VocabularyDto {
   meaning: string;
   meaningBn?: string;
   partOfSpeech?: string;
+  phonetic?: string;
+  phoneticAudio?: string;
+  sourceUrl?: string;
   exampleSentence?: string;
   synonyms: string[];
   antonyms: string[];
@@ -55,6 +58,9 @@ export interface CreateVocabularyPayload {
   meaning: string;
   meaningBn?: string;
   partOfSpeech?: string;
+  phonetic?: string;
+  phoneticAudio?: string;
+  sourceUrl?: string;
   exampleSentence?: string;
   synonyms?: string[];
   antonyms?: string[];
@@ -82,6 +88,10 @@ export const api = {
       const query = search.toString();
       return request<VocabularyDto[]>(`/vocab${query ? `?${query}` : ""}`);
     },
+    checkDuplicate: (word: string) =>
+      request<{ exists: boolean; word: VocabularyDto | null }>(
+        `/vocab/check-duplicate?word=${encodeURIComponent(word)}`
+      ),
     create: (payload: CreateVocabularyPayload) =>
       request<VocabularyDto>("/vocab", {
         method: "POST",

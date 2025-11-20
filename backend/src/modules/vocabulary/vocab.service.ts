@@ -7,9 +7,21 @@ import type {
   UpdateVocabularyInput,
 } from "./vocab.schema";
 
+export const checkDuplicateWord = async (
+  word: string
+): Promise<VocabularyDocument | null> => {
+  return VocabularyModel.findOne({
+    word: { $regex: new RegExp(`^${word}$`, "i") },
+  }).lean();
+};
+
 export const createVocabulary = async (
   payload: CreateVocabularyInput
 ): Promise<VocabularyDocument> => {
+  const existingWord = await checkDuplicateWord(payload.word);
+  if (existingWord) {
+    throw new HttpError(409, `Word "${payload.word}" already exists`);
+  }
   return VocabularyModel.create(payload);
 };
 

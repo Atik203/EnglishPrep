@@ -42,3 +42,16 @@ export const deleteVocabularyHandler = asyncHandler(
     res.status(204).send();
   }
 );
+
+export const checkDuplicateHandler = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { word } = req.query;
+    if (!word || typeof word !== "string") {
+      res.json({ exists: false, word: null });
+      return;
+    }
+    const { checkDuplicateWord } = await import("./vocab.service");
+    const existingWord = await checkDuplicateWord(word);
+    res.json({ exists: !!existingWord, word: existingWord });
+  }
+);
