@@ -29,7 +29,10 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       state.isAuthenticated = false;
-      localStorage.removeItem("token");
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("token");
+        document.cookie = "token=; path=/; max-age=0";
+      }
     },
   },
 });

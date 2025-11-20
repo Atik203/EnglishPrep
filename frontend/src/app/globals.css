@@ -207,7 +207,7 @@
 
   /* Liquid Glass Effect */
   .glass-card {
-    background: var(--card);
+    background: hsl(var(--card) / 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);

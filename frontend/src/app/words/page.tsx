@@ -1,5 +1,10 @@
 "use client";
 
+import {
+  FadeIn,
+  StaggerContainer,
+  StaggerItem,
+} from "@/components/ui/animations";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -12,7 +17,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useGetVocabularyQuery } from "@/redux/features/vocabulary/vocabularyApi";
-import { BookMarked, ChevronRight, Loader2, Search } from "lucide-react";
+import {
+  BookMarked,
+  ChevronRight,
+  Filter,
+  Loader2,
+  Search,
+  X,
+} from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
@@ -130,11 +142,11 @@ export default function WordsPage() {
       {/* Header */}
       <div className="mb-8 text-center">
         <h1 className="text-5xl font-bold mb-3 bg-linear-to-r from-violet-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-          My Vocabulary
+          Vocabulary
         </h1>
         <p className="text-muted-foreground text-lg">
-          Browse and explore your growing vocabulary collection (
-          {filteredWords.length} words)
+          Browse and explore the vocabulary collection ({filteredWords.length}{" "}
+          words)
         </p>
       </div>
 

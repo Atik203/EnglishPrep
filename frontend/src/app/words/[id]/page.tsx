@@ -111,7 +111,7 @@ export default function WordDetailsPage() {
       setSuccessMessage(`Marked as ${newStatus}!`);
       setTimeout(() => setSuccessMessage(null), 2000);
     } catch (err) {
-      setError("Failed to update status");
+      setError("Failed to update status. Please try again.");
     }
   };
 
@@ -244,7 +244,7 @@ export default function WordDetailsPage() {
                       className="text-4xl font-bold mb-2"
                     />
                   ) : (
-                    <h1 className="text-5xl font-bold mb-3 bg-gradient-to-r from-violet-500 to-purple-500 bg-clip-text text-transparent">
+                    <h1 className="text-5xl font-bold mb-3 bg-linear-to-r from-violet-500 to-purple-500 bg-clip-text text-transparent">
                       {word.word}
                     </h1>
                   )}
