@@ -1,13 +1,9 @@
 {
   "version": 2,
-  "buildCommand": "yarn build",
   "builds": [
     {
       "src": "api/index.ts",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": ["dist/**", "src/**"]
-      }
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -15,8 +11,5 @@
       "src": "/(.*)",
       "dest": "/api/index.ts"
     }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 }
