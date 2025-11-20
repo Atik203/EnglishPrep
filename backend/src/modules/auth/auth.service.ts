@@ -1,18 +1,21 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import type { Profile } from "passport-google-oauth20";
+import { HttpError } from "../../utils/httpError";
 import { UserModel } from "./auth.model";
 import type { LoginInput, RegisterInput, UpdateUserInput } from "./auth.schema";
-import { HttpError } from "../../utils/httpError";
 
 // Generate JWT token
 export const generateToken = (userId: string): string => {
-  const secret = process.env.JWT_SECRET || "your-secret-key-change-in-production";
+  const secret =
+    process.env.JWT_SECRET || "your-secret-key-change-in-production";
   return jwt.sign({ userId }, secret, { expiresIn: "7d" });
 };
 
 // Verify JWT token
 export const verifyToken = (token: string): { userId: string } => {
-  const secret = process.env.JWT_SECRET || "your-secret-key-change-in-production";
+  const secret =
+    process.env.JWT_SECRET || "your-secret-key-change-in-production";
   try {
     return jwt.verify(token, secret) as { userId: string };
   } catch (error) {
@@ -68,7 +71,9 @@ export const registerUser = async (data: RegisterInput) => {
 // Login user
 export const loginUser = async (data: LoginInput) => {
   // Find user with password
-  const user = await UserModel.findOne({ email: data.email }).select("+password");
+  const user = await UserModel.findOne({ email: data.email }).select(
+    "+password"
+  );
 
   if (!user || !user.password) {
     throw new HttpError(401, "Invalid email or password");
@@ -94,18 +99,18 @@ export const loginUser = async (data: LoginInput) => {
 };
 
 // Find or create user from Google OAuth
-export const findOrCreateGoogleUser = async (profile: {
-  id: string;
-  displayName: string;
-  emails: { value: string }[];
-  photos?: { value: string }[];
-}) => {
+export const findOrCreateGoogleUser = async (profile: Profile) => {
+  const email = profile.emails?.[0]?.value;
+  if (!email) {
+    throw new HttpError(400, "Google profile does not expose an email address");
+  }
+  const avatarUrl = profile.photos?.[0]?.value;
   // Check if user exists with Google ID
   let user = await UserModel.findOne({ googleId: profile.id });
 
   if (!user) {
     // Check if user exists with email
-    user = await UserModel.findOne({ email: profile.emails[0].value });
+    user = await UserModel.findOne({ email });
 
     if (user) {
       // Link Google account to existing user
@@ -118,9 +123,9 @@ export const findOrCreateGoogleUser = async (profile: {
       // Create new user
       user = await UserModel.create({
         googleId: profile.id,
-        email: profile.emails[0].value,
+        email,
         name: profile.displayName,
-        avatar: profile.photos && profile.photos.length > 0 ? profile.photos[0].value : undefined,
+        avatar: avatarUrl,
       });
     }
   }

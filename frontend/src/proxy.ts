@@ -41,6 +41,9 @@ export function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
+// Export the middleware function as 'proxy' for Next.js 16
+export { middleware as proxy };
+
 // Configure which routes use this middleware
 export const config = {
   matcher: [

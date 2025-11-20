@@ -332,7 +332,7 @@ export default function WordsPage() {
                   "from-violet-500/10 via-purple-500/10 to-pink-500/10 border-violet-500/30 hover:border-violet-500/60";
 
                 return (
-                  <StaggerItem key={word._id} index={index}>
+                  <StaggerItem key={word._id}>
                     <Link href={`/words/${word._id}`}>
                       <Card
                         className={`glass-card cursor-pointer transition-all duration-300 hover:shadow-xl hover:shadow-${

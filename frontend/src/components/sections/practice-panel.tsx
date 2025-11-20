@@ -9,7 +9,13 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Select } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import type { CreatePracticePayload, PracticeDto } from "@/lib/api";
 import {
@@ -108,33 +114,41 @@ export function PracticePanel(): JSX.Element {
           <div>
             <Label htmlFor="practice-exam">Exam</Label>
             <Select
-              id="practice-exam"
               value={form.exam}
-              onChange={(event) =>
-                handleChange("exam", event.target.value as PracticeExamOption)
+              onValueChange={(value) =>
+                handleChange("exam", value as PracticeExamOption)
               }
             >
-              {exams.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
+              <SelectTrigger id="practice-exam">
+                <SelectValue placeholder="Select exam" />
+              </SelectTrigger>
+              <SelectContent>
+                {exams.map((option) => (
+                  <SelectItem key={option} value={option}>
+                    {option}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
           </div>
           <div>
             <Label htmlFor="practice-skill">Skill</Label>
             <Select
-              id="practice-skill"
               value={form.skill}
-              onChange={(event) =>
-                handleChange("skill", event.target.value as PracticeSkillOption)
+              onValueChange={(value) =>
+                handleChange("skill", value as PracticeSkillOption)
               }
             >
-              {skills.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
+              <SelectTrigger id="practice-skill">
+                <SelectValue placeholder="Select skill" />
+              </SelectTrigger>
+              <SelectContent>
+                {skills.map((option) => (
+                  <SelectItem key={option} value={option}>
+                    {option}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
           </div>
         </section>

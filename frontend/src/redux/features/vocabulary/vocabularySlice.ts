@@ -3,14 +3,17 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 export const difficultyOptions = ["easy", "medium", "hard"] as const;
 export const statusOptions = ["new", "learning", "learned"] as const;
+export const examOptions = ["IELTS", "TOEFL", "GRE"] as const;
 
 export type DifficultyOption = (typeof difficultyOptions)[number];
 export type StatusOption = (typeof statusOptions)[number];
+export type ExamOption = (typeof examOptions)[number];
 
 export interface VocabularyFilters {
   difficulty?: DifficultyOption;
   status?: StatusOption;
   search?: string;
+  exam?: ExamOption;
 }
 
 interface VocabularyState {
@@ -45,18 +48,18 @@ const vocabularySlice = createSlice({
   name: "vocabulary",
   initialState,
   reducers: {
-    setFilter(
-      state,
+    setFilter<K extends keyof VocabularyFilters>(
+      state: VocabularyState,
       action: PayloadAction<{
-        key: keyof VocabularyFilters;
-        value?: VocabularyFilters[keyof VocabularyFilters];
+        key: K;
+        value?: VocabularyFilters[K];
       }>
     ) {
       const { key, value } = action.payload;
       if (value === undefined || value === "") {
         delete state.filters[key];
       } else {
-        state.filters[key] = value;
+        (state.filters[key] as VocabularyFilters[K]) = value;
       }
     },
     setSearch(state, action: PayloadAction<string>) {
@@ -70,15 +73,15 @@ const vocabularySlice = createSlice({
     resetFilters(state) {
       state.filters = {};
     },
-    updateForm(
-      state,
+    updateForm<K extends keyof CreateVocabularyPayload>(
+      state: VocabularyState,
       action: PayloadAction<{
-        key: keyof CreateVocabularyPayload;
-        value: CreateVocabularyPayload[keyof CreateVocabularyPayload];
+        key: K;
+        value: CreateVocabularyPayload[K];
       }>
     ) {
       const { key, value } = action.payload;
-      state.form[key] = value;
+      (state.form[key] as CreateVocabularyPayload[K]) = value;
     },
     resetForm(state) {
       state.form = createInitialForm();

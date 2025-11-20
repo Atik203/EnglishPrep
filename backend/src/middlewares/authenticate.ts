@@ -1,18 +1,19 @@
-import { Request, Response, NextFunction } from "express";
-import { verifyToken, getUserById } from "../modules/auth/auth.service";
+import { NextFunction, Request, Response } from "express";
+import { getUserById, verifyToken } from "../modules/auth/auth.service";
 import { HttpError } from "../utils/httpError";
 
 // Extend Express Request to include user
 declare global {
   namespace Express {
+    interface User {
+      _id: string;
+      name: string;
+      email: string;
+      avatar?: string;
+      googleId?: string;
+    }
+
     interface Request {
-      user?: {
-        _id: string;
-        name: string;
-        email: string;
-        avatar?: string;
-        googleId?: string;
-      };
       userId?: string;
     }
   }

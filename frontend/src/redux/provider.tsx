@@ -7,7 +7,7 @@ import type { AppStore } from "./store";
 import { makeStore } from "./store";
 
 export function StoreProvider({ children }: PropsWithChildren) {
-  const storeRef = useRef<AppStore>();
+  const storeRef = useRef<AppStore | undefined>(undefined);
   if (!storeRef.current) {
     storeRef.current = makeStore();
   }

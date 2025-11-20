@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { MoonStar, SunMedium } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { JSX, useEffect, useState } from "react";
 
 export function ModeToggle(): JSX.Element {
   const { resolvedTheme, setTheme } = useTheme();

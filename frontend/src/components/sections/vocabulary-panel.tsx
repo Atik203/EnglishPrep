@@ -11,7 +11,13 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import type { CreateVocabularyPayload } from "@/lib/api";
 import {
@@ -154,70 +160,85 @@ export function VocabularyPanel(): JSX.Element {
           <div>
             <Label htmlFor="vocab-exam">Exam</Label>
             <Select
-              id="vocab-exam"
-              value={filters.exam ?? ""}
-              onChange={(event) => {
-                const value = event.target.value as ExamOption | "";
+              value={filters.exam ?? "all"}
+              onValueChange={(value) => {
+                const examValue =
+                  value === "all" ? undefined : (value as ExamOption);
                 dispatch(
                   setFilter({
                     key: "exam",
-                    value: (value || undefined) as ExamOption | undefined,
+                    value: examValue,
                   })
                 );
               }}
             >
-              <option value="">All Exams</option>
-              {exams.map((exam) => (
-                <option key={exam} value={exam}>
-                  {exam}
-                </option>
-              ))}
+              <SelectTrigger id="vocab-exam">
+                <SelectValue placeholder="All Exams" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Exams</SelectItem>
+                {exams.map((exam) => (
+                  <SelectItem key={exam} value={exam}>
+                    {exam}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
           </div>
           <div>
             <Label htmlFor="vocab-difficulty">Difficulty</Label>
             <Select
-              id="vocab-difficulty"
-              value={filters.difficulty ?? ""}
-              onChange={(event) => {
-                const value = event.target.value as DifficultyOption | "";
+              value={filters.difficulty ?? "all"}
+              onValueChange={(value) => {
+                const diffValue =
+                  value === "all" ? undefined : (value as DifficultyOption);
                 dispatch(
                   setFilter({
                     key: "difficulty",
-                    value: (value || undefined) as DifficultyOption | undefined,
+                    value: diffValue,
                   })
                 );
               }}
             >
-              <option value="">Any</option>
-              {difficulties.map((difficulty) => (
-                <option key={difficulty} value={difficulty}>
-                  {difficulty}
-                </option>
-              ))}
+              <SelectTrigger id="vocab-difficulty">
+                <SelectValue placeholder="Any" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Any</SelectItem>
+                {difficulties.map((difficulty) => (
+                  <SelectItem key={difficulty} value={difficulty}>
+                    {difficulty}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
           </div>
           <div>
             <Label htmlFor="vocab-status">Status</Label>
             <Select
-              id="vocab-status"
-              value={filters.status ?? ""}
-              onChange={(event) => {
-                const value = event.target.value as StatusOption | "";
+              value={filters.status ?? "all"}
+              onValueChange={(value) => {
+                const statusValue =
+                  value === "all" ? undefined : (value as StatusOption);
                 dispatch(
                   setFilter({
                     key: "status",
-                    value: (value || undefined) as StatusOption | undefined,
+                    value: statusValue,
                   })
                 );
               }}
             >
-              <option value="">Any</option>
-              {statuses.map((status) => (
-                <option key={status} value={status}>
-                  {status}
-                </option>
-              ))}
+              <SelectTrigger id="vocab-status">
+                <SelectValue placeholder="Any" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Any</SelectItem>
+                {statuses.map((status) => (
+                  <SelectItem key={status} value={status}>
+                    {status}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
           </div>
         </section>
@@ -310,36 +331,39 @@ export function VocabularyPanel(): JSX.Element {
               <div>
                 <Label htmlFor="examTags">Exam focus</Label>
                 <Select
-                  id="examTags"
-                  value={form.examTags?.[0] ?? "IELTS"}
-                  onChange={(event) =>
-                    handleChange("examTags", [event.target.value as ExamOption])
-                  }
+                  value={form.topicTags?.[0] ?? "IELTS"}
+                  onValueChange={(value) => handleChange("topicTags", [value])}
                 >
-                  {exams.map((exam) => (
-                    <option key={exam} value={exam}>
-                      {exam}
-                    </option>
-                  ))}
+                  <SelectTrigger id="examTags">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {exams.map((exam) => (
+                      <SelectItem key={exam} value={exam}>
+                        {exam}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
                 </Select>
               </div>
               <div>
                 <Label htmlFor="difficulty">Difficulty</Label>
                 <Select
-                  id="difficulty"
                   value={form.difficulty}
-                  onChange={(event) =>
-                    handleChange(
-                      "difficulty",
-                      event.target.value as DifficultyOption
-                    )
+                  onValueChange={(value) =>
+                    handleChange("difficulty", value as DifficultyOption)
                   }
                 >
-                  {difficulties.map((difficulty) => (
-                    <option key={difficulty} value={difficulty}>
-                      {difficulty}
-                    </option>
-                  ))}
+                  <SelectTrigger id="difficulty">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {difficulties.map((difficulty) => (
+                      <SelectItem key={difficulty} value={difficulty}>
+                        {difficulty}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
                 </Select>
               </div>
             </div>
@@ -347,17 +371,21 @@ export function VocabularyPanel(): JSX.Element {
               <div>
                 <Label htmlFor="status">Status</Label>
                 <Select
-                  id="status"
                   value={form.status}
-                  onChange={(event) =>
-                    handleChange("status", event.target.value as StatusOption)
+                  onValueChange={(value) =>
+                    handleChange("status", value as StatusOption)
                   }
                 >
-                  {statuses.map((status) => (
-                    <option key={status} value={status}>
-                      {status}
-                    </option>
-                  ))}
+                  <SelectTrigger id="status">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {statuses.map((status) => (
+                      <SelectItem key={status} value={status}>
+                        {status}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
                 </Select>
               </div>
               <div>
@@ -417,7 +445,7 @@ export function VocabularyPanel(): JSX.Element {
                   </div>
                   <div className="flex flex-wrap gap-2">
                     <Badge variant="secondary">
-                      {item.examTags.join(", ")}
+                      {item.topicTags.join(", ")}
                     </Badge>
                     <Badge variant="muted">{item.difficulty}</Badge>
                     <Badge>{item.status}</Badge>

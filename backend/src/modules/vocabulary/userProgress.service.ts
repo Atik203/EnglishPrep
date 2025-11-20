@@ -8,7 +8,7 @@ import {
 export const getUserProgress = async (
   userId: string,
   vocabularyId: string
-): Promise<UserProgressDocument | null> => {
+) => {
   return UserProgressModel.findOne({
     userId,
     vocabularyId,
@@ -40,7 +40,7 @@ export const updateUserProgress = async (
 export const getUserProgressList = async (
   userId: string,
   status?: UserLearningStatus
-): Promise<UserProgressDocument[]> => {
+) => {
   const query: any = { userId };
   if (status) {
     query.status = status;

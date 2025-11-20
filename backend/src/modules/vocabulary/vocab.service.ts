@@ -7,9 +7,7 @@ import type {
   UpdateVocabularyInput,
 } from "./vocab.schema";
 
-export const checkDuplicateWord = async (
-  word: string
-): Promise<VocabularyDocument | null> => {
+export const checkDuplicateWord = async (word: string) => {
   return VocabularyModel.findOne({
     word: { $regex: new RegExp(`^${word}$`, "i") },
   }).lean();
@@ -25,9 +23,7 @@ export const createVocabulary = async (
   return VocabularyModel.create(payload);
 };
 
-export const listVocabulary = async (
-  filters: FilterVocabularyInput
-): Promise<VocabularyDocument[]> => {
+export const listVocabulary = async (filters: FilterVocabularyInput) => {
   const query: FilterQuery<VocabularyDocument> = {};
 
   if (filters.difficulty) {
@@ -61,9 +57,7 @@ export const updateVocabulary = async (
   return updated;
 };
 
-export const getVocabularyById = async (
-  vocabId: string
-): Promise<VocabularyDocument> => {
+export const getVocabularyById = async (vocabId: string) => {
   const vocab = await VocabularyModel.findById(vocabId).lean();
   if (!vocab) {
     throw new HttpError(404, "Vocabulary not found");

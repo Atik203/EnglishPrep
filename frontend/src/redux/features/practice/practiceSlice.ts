@@ -32,15 +32,15 @@ const practiceSlice = createSlice({
   name: "practice",
   initialState,
   reducers: {
-    updateForm(
-      state,
+    updateForm<K extends keyof CreatePracticePayload>(
+      state: PracticeState,
       action: PayloadAction<{
-        key: keyof CreatePracticePayload;
-        value: CreatePracticePayload[keyof CreatePracticePayload];
+        key: K;
+        value: CreatePracticePayload[K];
       }>
     ) {
       const { key, value } = action.payload;
-      state.form[key] = value;
+      (state.form[key] as CreatePracticePayload[K]) = value;
     },
     resetForm(state) {
       state.form = createInitialForm();

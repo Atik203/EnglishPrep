@@ -14,9 +14,7 @@ export const createPracticeEntry = async (
   return PracticeEntryModel.create(payload);
 };
 
-export const listPracticeEntries = async (
-  filters: FilterPracticeInput
-): Promise<PracticeEntryDocument[]> => {
+export const listPracticeEntries = async (filters: FilterPracticeInput) => {
   const query: FilterQuery<PracticeEntryDocument> = {};
 
   if (filters.exam) {
