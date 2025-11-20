@@ -1,0 +1,16 @@
+{
+  "name": "englishprep",
+  "private": true,
+  "packageManager": "yarn@4.9.4",
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "scripts": {
+    "dev:backend": "yarn workspace backend dev",
+    "dev:frontend": "yarn workspace frontend dev",
+    "build:backend": "yarn workspace backend build",
+    "build:frontend": "yarn workspace frontend build",
+    "dev": "yarn dev:backend & yarn dev:frontend"
+  }
+}

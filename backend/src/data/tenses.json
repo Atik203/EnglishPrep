@@ -1,0 +1,53 @@
+[
+  {
+    "name": "Present Simple",
+    "structure": "Subject + base verb",
+    "usage": "Facts, routines, universal truths",
+    "examples": ["I read the news every morning.", "Water boils at 100°C."]
+  },
+  {
+    "name": "Present Continuous",
+    "structure": "Subject + am/is/are + verb-ing",
+    "usage": "Actions happening now or temporary situations",
+    "examples": [
+      "She is preparing for the IELTS speaking test.",
+      "They are staying in Dhaka this week."
+    ]
+  },
+  {
+    "name": "Present Perfect",
+    "structure": "Subject + have/has + past participle",
+    "usage": "Experiences or actions with present relevance",
+    "examples": [
+      "I have completed two GRE mock tests.",
+      "He has improved his listening score."
+    ]
+  },
+  {
+    "name": "Past Simple",
+    "structure": "Subject + past verb",
+    "usage": "Finished actions in the past",
+    "examples": [
+      "She wrote an essay yesterday.",
+      "We watched a TOEFL lecture last night."
+    ]
+  },
+  {
+    "name": "Past Continuous",
+    "structure": "Subject + was/were + verb-ing",
+    "usage": "Past actions in progress when another action occurred",
+    "examples": [
+      "I was reviewing vocabulary when you called.",
+      "They were discussing task 2 topics all evening."
+    ]
+  },
+  {
+    "name": "Future Simple",
+    "structure": "Subject + will + base verb",
+    "usage": "Decisions made now or future predictions",
+    "examples": [
+      "I will practice speaking for 15 minutes tonight.",
+      "The exam will start at 9 AM."
+    ]
+  }
+]
