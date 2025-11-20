@@ -43,6 +43,14 @@ export const deleteVocabularyHandler = asyncHandler(
   }
 );
 
+export const getVocabularyHandler = asyncHandler(
+  async (req: Request, res: Response) => {
+    const { getVocabularyById } = await import("./vocab.service");
+    const vocab = await getVocabularyById(req.params.id);
+    res.json(vocab);
+  }
+);
+
 export const checkDuplicateHandler = asyncHandler(
   async (req: Request, res: Response) => {
     const { word } = req.query;

@@ -65,6 +65,16 @@ export const updateVocabulary = async (
   return updated;
 };
 
+export const getVocabularyById = async (
+  vocabId: string
+): Promise<VocabularyDocument> => {
+  const vocab = await VocabularyModel.findById(vocabId).lean();
+  if (!vocab) {
+    throw new HttpError(404, "Vocabulary not found");
+  }
+  return vocab;
+};
+
 export const deleteVocabulary = async (vocabId: string): Promise<void> => {
   const result = await VocabularyModel.findByIdAndDelete(vocabId);
   if (!result) {

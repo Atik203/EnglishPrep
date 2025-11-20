@@ -7,11 +7,12 @@ export const baseApi = createApi({
   reducerPath: "englishPrepApi",
   baseQuery: fetchBaseQuery({
     baseUrl: API_BASE_URL,
+    credentials: "include", // Include cookies for authentication
     prepareHeaders: (headers) => {
       headers.set("Content-Type", "application/json");
       return headers;
     },
   }),
-  tagTypes: ["Vocabulary", "Practice", "Tense"],
+  tagTypes: ["Vocabulary", "Practice", "Tense", "Progress"],
   endpoints: () => ({}),
 });

@@ -34,6 +34,8 @@ export interface VocabularyDto {
   difficulty: "easy" | "medium" | "hard";
   status: "new" | "learning" | "learned";
   notes?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface PracticeDto {

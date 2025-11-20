@@ -13,8 +13,13 @@ export interface BengaliTranslation {
   examples?: string[];
 }
 
+interface BengaliDictionaryEntry {
+  en: string;
+  bn: string;
+}
+
 // This will be populated from a JSON file
-let bengaliDictionary: Record<string, BengaliTranslation> | null = null;
+let bengaliDictionary: Map<string, string> | null = null;
 
 /**
  * Load Bengali dictionary from JSON file
@@ -23,13 +28,31 @@ export async function loadBengaliDictionary(): Promise<void> {
   if (bengaliDictionary) return;
 
   try {
+    console.log(
+      "[Bengali Dictionary] Loading dictionary from /E2Bdatabase.json"
+    );
     const response = await fetch("/E2Bdatabase.json");
     if (response.ok) {
-      bengaliDictionary = await response.json();
+      const data: BengaliDictionaryEntry[] = await response.json();
+      console.log(`[Bengali Dictionary] Loaded ${data.length} entries`);
+
+      // Convert array to Map for faster lookups
+      bengaliDictionary = new Map();
+      data.forEach((entry) => {
+        if (entry.en && entry.bn) {
+          bengaliDictionary!.set(entry.en.toLowerCase().trim(), entry.bn);
+        }
+      });
+      console.log(
+        `[Bengali Dictionary] Indexed ${bengaliDictionary.size} words`
+      );
+    } else {
+      console.error("[Bengali Dictionary] Failed to fetch:", response.status);
+      bengaliDictionary = new Map();
     }
   } catch (error) {
-    console.warn("Bengali dictionary not loaded:", error);
-    bengaliDictionary = {};
+    console.error("[Bengali Dictionary] Load error:", error);
+    bengaliDictionary = new Map();
   }
 }
 
@@ -41,25 +64,26 @@ export async function searchBengaliMeaning(
 ): Promise<BengaliTranslation | null> {
   await loadBengaliDictionary();
 
-  if (!bengaliDictionary) {
+  if (!bengaliDictionary || bengaliDictionary.size === 0) {
+    console.warn("[Bengali Dictionary] Dictionary not available");
     return null;
   }
 
   const normalizedWord = englishWord.toLowerCase().trim();
+  console.log(`[Bengali Dictionary] Searching for: "${normalizedWord}"`);
 
   // Try exact match first
-  if (bengaliDictionary[normalizedWord]) {
-    return bengaliDictionary[normalizedWord];
+  const meaning = bengaliDictionary.get(normalizedWord);
+
+  if (meaning) {
+    console.log(`[Bengali Dictionary] Found: "${meaning}"`);
+    return {
+      word: englishWord,
+      meaning: meaning,
+    };
   }
 
-  // Try case-insensitive search
-  const keys = Object.keys(bengaliDictionary);
-  const matchedKey = keys.find((key) => key.toLowerCase() === normalizedWord);
-
-  if (matchedKey) {
-    return bengaliDictionary[matchedKey];
-  }
-
+  console.log(`[Bengali Dictionary] No match found for: "${normalizedWord}"`);
   return null;
 }
 

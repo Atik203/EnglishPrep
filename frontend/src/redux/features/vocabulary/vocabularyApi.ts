@@ -12,7 +12,7 @@ export const vocabularyApi = baseApi.injectEndpoints({
         });
         const query = searchParams.toString();
         return {
-          url: `/vocab${query ? `?${query}` : ""}`,
+          url: `/vocabulary${query ? `?${query}` : ""}`,
         };
       },
       providesTags: (result) =>
@@ -26,17 +26,37 @@ export const vocabularyApi = baseApi.injectEndpoints({
             ]
           : [{ type: "Vocabulary" as const, id: "LIST" }],
     }),
+    getVocabularyById: builder.query<VocabularyDto, string>({
+      query: (id) => ({
+        url: `/vocabulary/${id}`,
+      }),
+      providesTags: (_result, _error, id) => [{ type: "Vocabulary", id }],
+    }),
     createVocabulary: builder.mutation<VocabularyDto, CreateVocabularyPayload>({
       query: (body) => ({
-        url: "/vocab",
+        url: "/vocabulary",
         method: "POST",
         body,
       }),
       invalidatesTags: [{ type: "Vocabulary", id: "LIST" }],
     }),
+    updateVocabulary: builder.mutation<
+      VocabularyDto,
+      { id: string; data: Partial<CreateVocabularyPayload> }
+    >({
+      query: ({ id, data }) => ({
+        url: `/vocabulary/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+      invalidatesTags: (_result, _error, { id }) => [
+        { type: "Vocabulary", id },
+        { type: "Vocabulary", id: "LIST" },
+      ],
+    }),
     deleteVocabulary: builder.mutation<void, string>({
       query: (id) => ({
-        url: `/vocab/${id}`,
+        url: `/vocabulary/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: (_result, _error, id) => [
@@ -52,4 +72,6 @@ export const {
   useCreateVocabularyMutation,
   useDeleteVocabularyMutation,
   useGetVocabularyQuery,
+  useGetVocabularyByIdQuery,
+  useUpdateVocabularyMutation,
 } = vocabularyApi;

@@ -5,19 +5,22 @@ import {
   StaggerContainer,
   StaggerItem,
 } from "@/components/ui/animations";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useGetVocabularyQuery } from "@/redux/features/vocabulary/vocabularyApi";
 import { useAppSelector } from "@/redux/hooks";
 import {
   BookMarked,
   Brain,
-  Calendar,
   CheckCircle2,
+  ChevronRight,
+  Sparkles,
   Target,
   TrendingUp,
 } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 export default function ProgressPage() {
   const router = useRouter();
@@ -35,7 +38,16 @@ export default function ProgressPage() {
     return null;
   }
 
+  // Filter learned words
+  const learnedWords = useMemo(() => {
+    return vocabData?.filter((word) => word.status === "learned") || [];
+  }, [vocabData]);
+
   const totalWords = vocabData?.length || 0;
+  const learnedCount = learnedWords.length;
+  const learningProgress =
+    totalWords > 0 ? Math.round((learnedCount / totalWords) * 100) : 0;
+
   const daysActive = Math.floor(
     (new Date().getTime() - new Date(user.createdAt).getTime()) /
       (1000 * 60 * 60 * 24)
@@ -52,22 +64,22 @@ export default function ProgressPage() {
       bgColor: "bg-blue-50 dark:bg-blue-950/30",
     },
     {
-      title: "Days Active",
-      value: daysActive,
-      icon: Calendar,
+      title: "Learned Words",
+      value: learnedCount,
+      icon: CheckCircle2,
+      color: "text-green-600 dark:text-green-400",
+      bgColor: "bg-green-50 dark:bg-green-950/30",
+    },
+    {
+      title: "Progress",
+      value: `${learningProgress}%`,
+      icon: TrendingUp,
       color: "text-purple-600 dark:text-purple-400",
       bgColor: "bg-purple-50 dark:bg-purple-950/30",
     },
     {
       title: "Words/Day",
       value: wordsPerDay,
-      icon: TrendingUp,
-      color: "text-green-600 dark:text-green-400",
-      bgColor: "bg-green-50 dark:bg-green-950/30",
-    },
-    {
-      title: "Learning Streak",
-      value: "7 days",
       icon: Target,
       color: "text-orange-600 dark:text-orange-400",
       bgColor: "bg-orange-50 dark:bg-orange-950/30",
@@ -202,8 +214,91 @@ export default function ProgressPage() {
         </Card>
       </FadeIn>
 
-      {/* Learning Tips */}
+      {/* Learned Words List */}
       <FadeIn delay={0.4}>
+        <Card className="border-2 bg-linear-to-br from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-green-600" />
+              Learned Words ({learnedCount})
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {learnedCount === 0 ? (
+              <div className="text-center py-12 space-y-3">
+                <CheckCircle2 className="h-16 w-16 mx-auto opacity-20" />
+                <p className="text-muted-foreground text-lg font-medium">
+                  No words learned yet
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Start marking words as learned to track your progress!
+                </p>
+              </div>
+            ) : (
+              <StaggerContainer>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {learnedWords.map((word, index) => (
+                    <StaggerItem key={word._id}>
+                      <Link href={`/words/${word._id}`}>
+                        <Card className="group cursor-pointer border-2 hover:border-green-500 hover:shadow-lg transition-all duration-300 bg-linear-to-br from-white to-green-50 dark:from-gray-900 dark:to-green-950/30">
+                          <CardContent className="p-4 space-y-3">
+                            {/* Word Header */}
+                            <div className="flex items-start justify-between">
+                              <div className="flex-1">
+                                <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100 group-hover:text-green-600 dark:group-hover:text-green-400 transition-colors">
+                                  {word.word}
+                                </h3>
+                                <p className="text-sm text-muted-foreground line-clamp-1">
+                                  {word.meaning}
+                                </p>
+                              </div>
+                              <ChevronRight className="h-5 w-5 text-green-500 group-hover:translate-x-1 transition-transform" />
+                            </div>
+
+                            {/* Bengali Meaning */}
+                            {word.meaningBn && (
+                              <div className="pt-2 border-t">
+                                <p className="text-sm text-gray-600 dark:text-gray-400 font-bengali line-clamp-1">
+                                  {word.meaningBn}
+                                </p>
+                              </div>
+                            )}
+
+                            {/* Badges */}
+                            <div className="flex flex-wrap gap-2">
+                              <Badge
+                                variant="outline"
+                                className={
+                                  word.difficulty === "easy"
+                                    ? "border-emerald-300 bg-emerald-50 text-emerald-700 dark:border-emerald-700 dark:bg-emerald-950 dark:text-emerald-300"
+                                    : word.difficulty === "medium"
+                                    ? "border-amber-300 bg-amber-50 text-amber-700 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-300"
+                                    : "border-rose-300 bg-rose-50 text-rose-700 dark:border-rose-700 dark:bg-rose-950 dark:text-rose-300"
+                                }
+                              >
+                                {word.difficulty}
+                              </Badge>
+                              <Badge
+                                variant="outline"
+                                className="border-green-300 bg-green-50 text-green-700 dark:border-green-700 dark:bg-green-950 dark:text-green-300"
+                              >
+                                ✓ Learned
+                              </Badge>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </Link>
+                    </StaggerItem>
+                  ))}
+                </div>
+              </StaggerContainer>
+            )}
+          </CardContent>
+        </Card>
+      </FadeIn>
+
+      {/* Learning Tips */}
+      <FadeIn delay={0.5}>
         <Card className="border-2 bg-linear-to-br from-blue-50 to-purple-50 dark:from-blue-950/20 dark:to-purple-950/20">
           <CardContent className="p-6">
             <h3 className="font-semibold text-lg mb-3">💡 Learning Tips</h3>

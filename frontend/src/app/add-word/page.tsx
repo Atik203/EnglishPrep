@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { api, type CreateVocabularyPayload } from "@/lib/api";
+import { searchBengaliMeaning } from "@/lib/bengali-dictionary";
 import { fetchWordDefinition } from "@/lib/dictionary";
 import {
   AlertCircle,
