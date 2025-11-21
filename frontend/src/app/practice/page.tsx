@@ -248,11 +248,18 @@ export default function PracticePage() {
                               <h2 className="text-5xl font-bold bg-linear-to-r from-violet-600 to-purple-600 bg-clip-text text-transparent">
                                 {currentWord.word}
                               </h2>
-                              {currentWord.phonetic && (
+                              {(currentWord.phonetic ||
+                                currentWord.phoneticAudio) && (
                                 <div className="flex items-center justify-center gap-2">
-                                  <p className="text-lg text-muted-foreground font-mono">
-                                    {currentWord.phonetic}
-                                  </p>
+                                  {currentWord.phonetic ? (
+                                    <p className="text-lg text-muted-foreground font-mono">
+                                      {currentWord.phonetic}
+                                    </p>
+                                  ) : (
+                                    <p className="text-sm text-muted-foreground italic">
+                                      Pronunciation unavailable
+                                    </p>
+                                  )}
                                   {currentWord.phoneticAudio && (
                                     <Button
                                       onClick={playAudio}
@@ -277,10 +284,29 @@ export default function PracticePage() {
                               <h2 className="text-4xl font-bold">
                                 {currentWord.word}
                               </h2>
-                              {currentWord.phonetic && (
-                                <p className="text-muted-foreground font-mono">
-                                  {currentWord.phonetic}
-                                </p>
+                              {(currentWord.phonetic ||
+                                currentWord.phoneticAudio) && (
+                                <div className="flex items-center justify-center gap-2">
+                                  {currentWord.phonetic ? (
+                                    <p className="text-muted-foreground font-mono">
+                                      {currentWord.phonetic}
+                                    </p>
+                                  ) : (
+                                    <p className="text-sm text-muted-foreground italic">
+                                      Pronunciation unavailable
+                                    </p>
+                                  )}
+                                  {currentWord.phoneticAudio && (
+                                    <Button
+                                      onClick={playAudio}
+                                      size="icon"
+                                      variant="ghost"
+                                      className="h-8 w-8"
+                                    >
+                                      <Volume2 className="h-5 w-5" />
+                                    </Button>
+                                  )}
+                                </div>
                               )}
                               <div className="mt-6 space-y-3 text-left max-w-2xl mx-auto">
                                 <div className="bg-violet-500/10 border border-violet-500/30 rounded-lg p-4">

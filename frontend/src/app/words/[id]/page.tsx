@@ -330,9 +330,15 @@ export default function WordDetailsPage() {
                       {word.word}
                     </h1>
                   )}
-                  {word.phonetic && (
+                  {(word.phonetic || word.phoneticAudio) && (
                     <div className="flex items-center gap-3 text-lg text-muted-foreground">
-                      <span className="font-mono">{word.phonetic}</span>
+                      {word.phonetic ? (
+                        <span className="font-mono">{word.phonetic}</span>
+                      ) : (
+                        <span className="text-sm italic text-muted-foreground">
+                          Pronunciation unavailable
+                        </span>
+                      )}
                       {word.phoneticAudio && (
                         <Button
                           onClick={playAudio}
