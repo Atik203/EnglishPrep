@@ -2,8 +2,8 @@
 
 import { UserDropdown } from "@/components/layout/user-dropdown";
 import { ModeToggle } from "@/components/theme/mode-toggle";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
@@ -11,8 +11,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useAppSelector } from "@/redux/hooks";
 import { useGetQuotaQuery } from "@/redux/features/ai/aiApi";
+import { useAppSelector } from "@/redux/hooks";
 import { motion } from "framer-motion";
 import { BookMarked, BookOpen, Home, Menu, Zap } from "lucide-react";
 import Link from "next/link";
@@ -23,6 +23,7 @@ const navigation = [
   { name: "Home", href: "/", icon: Home },
   { name: "Words", href: "/words", icon: BookMarked },
   { name: "Practice", href: "/practice", icon: BookOpen },
+  { name: "Pricing", href: "/pricing", icon: Zap },
 ];
 
 export function SiteHeader(): JSX.Element {
@@ -114,8 +115,12 @@ export function SiteHeader(): JSX.Element {
                     }`}
                   >
                     <Zap className="h-3.5 w-3.5" />
-                    <span className="font-semibold">{quotaData.data.remaining}</span>
-                    <span className="text-xs text-muted-foreground">/ {quotaData.data.limit}</span>
+                    <span className="font-semibold">
+                      {quotaData.data.remaining}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      / {quotaData.data.limit}
+                    </span>
                   </Badge>
                 </Link>
               )}

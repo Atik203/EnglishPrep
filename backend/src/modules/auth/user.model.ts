@@ -56,7 +56,7 @@ const userSchema = new Schema<IUser>(
     },
     aiRequestsRemaining: {
       type: Number,
-      default: 100, // Free tier daily limit
+      default: 30, // Free tier daily limit
     },
     aiResetDate: {
       type: Date,

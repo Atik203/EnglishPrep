@@ -26,7 +26,7 @@ async function resetAdmin() {
       password: "admin123",
       isAdmin: true,
       subscriptionTier: "premium",
-      aiRequestsRemaining: 500,
+      aiRequestsRemaining: 100,
       aiResetDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
     });
 

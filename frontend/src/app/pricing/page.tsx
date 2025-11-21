@@ -19,10 +19,11 @@ const pricingTiers = [
     price: 0,
     period: "forever",
     description: "Perfect for casual learners getting started",
-    requests: 100,
+    requests: 30,
     requestPeriod: "per day",
+    monthlyTotal: 900,
     features: [
-      "100 AI requests per day",
+      "30 AI requests per day (900/month)",
       "Vocabulary enhancement with AI",
       "Practice feedback and suggestions",
       "Access to all vocabulary features",
@@ -44,15 +45,16 @@ const pricingTiers = [
     price: 3.99,
     period: "per month",
     description: "For serious learners who want unlimited growth",
-    requests: 500,
-    requestPeriod: "per month",
+    requests: 100,
+    requestPeriod: "per day",
+    monthlyTotal: 3000,
     badge: "Best Value",
     features: [
-      "500 AI requests per month",
+      "100 AI requests per day (3000/month)",
       "Everything in Free tier",
       "Priority AI response time",
       "Advanced vocabulary suggestions",
-      "No daily limits - use anytime",
+      "Higher daily limits",
       "Personalized learning insights",
       "Export your progress data",
       "Priority email support",
@@ -197,9 +199,9 @@ export default function PricingPage() {
             <tbody className="divide-y">
               <tr>
                 <td className="p-4">AI Requests</td>
-                <td className="text-center p-4">100/day</td>
+                <td className="text-center p-4">30/day (900/month)</td>
                 <td className="text-center p-4 font-semibold text-purple-600">
-                  500/month
+                  100/day (3000/month)
                 </td>
               </tr>
               <tr>
@@ -232,10 +234,10 @@ export default function PricingPage() {
               <tr>
                 <td className="p-4">Daily Limits</td>
                 <td className="text-center p-4 text-muted-foreground">
-                  Yes (resets daily)
+                  30 requests (resets daily)
                 </td>
                 <td className="text-center p-4 font-semibold text-purple-600">
-                  No daily limits
+                  100 requests (resets daily)
                 </td>
               </tr>
               <tr>
@@ -270,10 +272,10 @@ export default function PricingPage() {
               What happens when I reach my AI request limit?
             </h3>
             <p className="text-sm text-muted-foreground">
-              Free tier users will need to wait until midnight UTC for their
-              quota to reset. Premium users have a monthly quota that provides
-              much more flexibility. You can still use all other features
-              without AI assistance.
+              Both free and premium users have daily quotas that reset at
+              midnight UTC. Free tier gets 30 requests per day (900/month) while
+              premium users get 100 requests per day (3000/month). You can still
+              use all other features without AI assistance.
             </p>
           </div>
           <div className="border rounded-lg p-6">
