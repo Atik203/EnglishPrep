@@ -1,4 +1,4 @@
-import { Schema, model, type Document } from "mongoose";
+import { Schema, model, models, type Document } from "mongoose";
 
 export type ExamType = "IELTS" | "TOEFL" | "GRE";
 export type SkillType = "reading" | "listening" | "writing" | "speaking";
@@ -43,7 +43,6 @@ const practiceSchema = new Schema<PracticeEntryDocument>(
   { timestamps: true }
 );
 
-export const PracticeEntryModel = model<PracticeEntryDocument>(
-  "PracticeEntry",
-  practiceSchema
-);
+export const PracticeEntryModel =
+  models.PracticeEntry ||
+  model<PracticeEntryDocument>("PracticeEntry", practiceSchema);

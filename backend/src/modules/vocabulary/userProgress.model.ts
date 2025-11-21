@@ -1,4 +1,4 @@
-import { Schema, model, type Document } from "mongoose";
+import { Schema, model, models, type Document } from "mongoose";
 
 export type UserLearningStatus = "new" | "learning" | "learned";
 
@@ -45,7 +45,6 @@ const userProgressSchema = new Schema<UserProgressDocument>(
 // Compound index to ensure one progress record per user per vocabulary
 userProgressSchema.index({ userId: 1, vocabularyId: 1 }, { unique: true });
 
-export const UserProgressModel = model<UserProgressDocument>(
-  "UserProgress",
-  userProgressSchema
-);
+export const UserProgressModel =
+  models.UserProgress ||
+  model<UserProgressDocument>("UserProgress", userProgressSchema);

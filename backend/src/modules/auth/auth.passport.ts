@@ -3,8 +3,8 @@ import {
   Strategy as GoogleStrategy,
   type Profile,
 } from "passport-google-oauth20";
-import { UserModel } from "./auth.model";
 import { findOrCreateGoogleUser } from "./auth.service";
+import { UserModel } from "./user.model";
 
 // Configure Google OAuth Strategy
 export const configureGoogleAuth = () => {

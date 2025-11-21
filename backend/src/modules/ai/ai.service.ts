@@ -52,7 +52,7 @@ Provide a JSON response with:
 1. enhancedMeaning: Simplify the definition in clear, learner-friendly language (1-2 sentences max)
 2. exampleSentences: Create 3 diverse, realistic example sentences showing different contexts
 3. suggestedDifficulty: Rate as "easy", "medium", or "hard" based on word complexity
-4. suggestedTopicTags: List 3-5 relevant topic categories (e.g., "Business", "Travel", "Emotions")
+4. suggestedTopicTags: Select 3-5 most relevant tags from this list: ["Education", "Culture", "Technology & Innovation", "Business & Management", "Finance & Banking", "Travel & Tourism", "Food & Nutrition", "Sports & Fitness", "Health & Medicine", "Environment", "Politics & Government", "Art & Creativity", "Literature", "Music", "Science & Research", "Emotions", "Daily Life", "Academic Word List (AWL)", "Idioms & Phrasal Verbs", "High-Frequency IELTS", "High-Frequency GRE"]
 5. memoryTip: Create a creative mnemonic or memory technique to remember this word
 6. synonyms: List 4-6 common synonyms
 

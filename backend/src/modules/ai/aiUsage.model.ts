@@ -80,4 +80,5 @@ aiUsageSchema.index(
   { expireAfterSeconds: 90 * 24 * 60 * 60 }
 );
 
-export const AIUsageModel = mongoose.model<IAIUsage>("AIUsage", aiUsageSchema);
+export const AIUsageModel =
+  mongoose.models.AIUsage || mongoose.model<IAIUsage>("AIUsage", aiUsageSchema);

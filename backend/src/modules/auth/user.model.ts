@@ -7,15 +7,15 @@ export interface IUser extends Document {
   password?: string;
   googleId?: string;
   avatar?: string;
-  
+
   // AI & Subscription fields
-  subscriptionTier: 'free' | 'premium';
+  subscriptionTier: "free" | "premium";
   aiRequestsRemaining: number;
   aiResetDate: Date;
   isAdmin: boolean;
   stripeCustomerId?: string;
   subscriptionExpiresAt?: Date;
-  
+
   createdAt: Date;
   updatedAt: Date;
   comparePassword(candidatePassword: string): Promise<boolean>;
@@ -47,12 +47,12 @@ const userSchema = new Schema<IUser>(
     avatar: {
       type: String,
     },
-    
+
     // AI & Subscription fields
     subscriptionTier: {
       type: String,
-      enum: ['free', 'premium'],
-      default: 'free',
+      enum: ["free", "premium"],
+      default: "free",
     },
     aiRequestsRemaining: {
       type: Number,
@@ -107,4 +107,5 @@ userSchema.methods.comparePassword = async function (
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-export const UserModel = mongoose.model<IUser>("User", userSchema);
+export const UserModel =
+  mongoose.models.User || mongoose.model<IUser>("User", userSchema);

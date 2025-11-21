@@ -2,8 +2,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import type { Profile } from "passport-google-oauth20";
 import { HttpError } from "../../utils/httpError";
-import { UserModel } from "./auth.model";
 import type { LoginInput, RegisterInput, UpdateUserInput } from "./auth.schema";
+import { UserModel } from "./user.model";
 
 // Generate JWT token
 export const generateToken = (userId: string): string => {

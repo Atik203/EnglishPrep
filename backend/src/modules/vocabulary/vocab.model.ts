@@ -1,4 +1,4 @@
-import { Schema, model, type Document } from "mongoose";
+import { Schema, model, models, type Document } from "mongoose";
 
 export type Difficulty = "easy" | "medium" | "hard";
 export type LearningStatus = "new" | "learning" | "learned";
@@ -57,7 +57,6 @@ vocabularySchema.index(
   { unique: true, collation: { locale: "en", strength: 2 } }
 );
 
-export const VocabularyModel = model<VocabularyDocument>(
-  "Vocabulary",
-  vocabularySchema
-);
+export const VocabularyModel =
+  models.Vocabulary ||
+  model<VocabularyDocument>("Vocabulary", vocabularySchema);
